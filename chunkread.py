@@ -27,7 +27,7 @@ class FileReader:
                 self.process(line)
 
     # Create chunks
-    def chunkify(self, fname,size=2 * 128):
+    def chunkify(self, fname,size=256):
         fileEnd = os.path.getsize(fname)
         with open(fname,'rb') as f:
             chunkEnd = f.tell()
@@ -47,7 +47,7 @@ class FileReader:
 
         # create jobs
         for chunkStart, chunkSize in self.chunkify(self.file_name):
-            jobs.append( pool.apply_async(self.process_wrapper,(chunkStart,chunkSize)) )
+            jobs.append( pool.apply_async(self.process_wrapper,(chunkStart,chunkSize)))
 
         # wait for all jobs to finish
         for job in jobs:
